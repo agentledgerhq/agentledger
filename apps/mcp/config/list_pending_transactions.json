@@ -1,0 +1,12 @@
+{
+  "name": "list_pending_transactions",
+  "description": "List all payment requests currently awaiting supervisor approval. Returns transaction IDs, amounts, merchants, purposes, and expiry times. Use this to discover what needs to be approved or denied.",
+  "parameters": {
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "x-base-url": "http://127.0.0.1:9119",
+  "x-auth": "AGENTLEDGER_SUPERVISOR_TOKEN",
+  "x-supervisor-tier": 1
+}

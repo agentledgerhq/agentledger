@@ -1,0 +1,42 @@
+{
+  "name": "agentledger-mcp",
+  "version": "1.0.0",
+  "description": "MCP servers for AgentLedger — user agent and supervisor agent",
+  "license": "AGPL-3.0",
+  "type": "module",
+  "bin": {
+    "agentledger-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "agentledger",
+    "ai-agents",
+    "payments",
+    "budget"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agentledgerhq/agentledger"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

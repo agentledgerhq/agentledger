@@ -1,0 +1,37 @@
+{
+  "name": "update_vault",
+  "description": "Replace the vaulted payment card with new credentials. REQUIRES SUPERVISOR TIER 3. This is a high-privilege operation: after this call, all future approved transactions will use the new card. Only available when the human operator explicitly enabled Tier 3 during 'agentledger init'. Use with extreme caution.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "holder_name": {
+        "type": "string",
+        "description": "Full name of the cardholder."
+      },
+      "card_number": {
+        "type": "string",
+        "description": "Card number (digits only, no spaces or dashes)."
+      },
+      "expiry_date": {
+        "type": "string",
+        "description": "Card expiry date in MM/YY format."
+      },
+      "cvv": {
+        "type": "string",
+        "description": "Card CVV / security code."
+      },
+      "country": {
+        "type": "string",
+        "description": "Two-letter country code (e.g. US, GB, DE)."
+      },
+      "zip_code": {
+        "type": "string",
+        "description": "Billing ZIP or postal code."
+      }
+    },
+    "required": ["holder_name", "card_number", "expiry_date", "cvv", "country", "zip_code"]
+  },
+  "x-base-url": "http://127.0.0.1:9119",
+  "x-auth": "AGENTLEDGER_SUPERVISOR_TOKEN",
+  "x-supervisor-tier": 3
+}

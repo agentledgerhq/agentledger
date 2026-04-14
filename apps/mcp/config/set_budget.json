@@ -1,0 +1,26 @@
+{
+  "name": "set_budget",
+  "description": "Create or update the spending budget for a user agent. Requires Supervisor Tier 2 or higher. Use this to allocate or adjust how much an agent is permitted to spend. Period can be 'cumulative' (never resets) or 'monthly' (resets on the 1st of each month).",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "agent_id": {
+        "type": "string",
+        "description": "The identifier of the agent whose budget is being set."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "The budget limit in cents (e.g. 10000 for $100.00)."
+      },
+      "period": {
+        "type": "string",
+        "enum": ["cumulative", "monthly"],
+        "description": "Budget period: 'cumulative' (never resets) or 'monthly' (resets on the 1st of each month). Defaults to 'cumulative'."
+      }
+    },
+    "required": ["agent_id", "limit"]
+  },
+  "x-base-url": "http://127.0.0.1:9119",
+  "x-auth": "AGENTLEDGER_SUPERVISOR_TOKEN",
+  "x-supervisor-tier": 2
+}

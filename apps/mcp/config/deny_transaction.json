@@ -1,0 +1,17 @@
+{
+  "name": "deny_transaction",
+  "description": "Deny a pending payment request. The reserved budget is fully refunded to the agent. The requesting agent will receive a 'denied' status when it next polls for its transaction status.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "transaction_id": {
+        "type": "string",
+        "description": "The unique transaction ID to deny (from list_pending_transactions)."
+      }
+    },
+    "required": ["transaction_id"]
+  },
+  "x-base-url": "http://127.0.0.1:9119",
+  "x-auth": "AGENTLEDGER_SUPERVISOR_TOKEN",
+  "x-supervisor-tier": 1
+}

@@ -1,0 +1,36 @@
+{
+  "name": "request_payment",
+  "description": "Request payment authorization for a specific merchant and amount. Requires user token (alu_) authentication. In auto mode, if the request is under the agent's budget, funds are consumed and credit card details are returned immediately. In manual mode, the transaction enters 'pending' state and the agent must poll get_status to retrieve card details after supervisor approval. There is no confirmation step — authorize is final.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "amount": {
+        "type": "integer",
+        "description": "The exact monetary amount required for the purchase, in cents (e.g. 2500 for $25.00). Must be greater than zero."
+      },
+      "merchant": {
+        "type": "string",
+        "description": "The name of the merchant where the payment will be made."
+      },
+      "purpose": {
+        "type": "string",
+        "description": "A brief explanation of why this payment is necessary."
+      },
+      "requesting_agent_id": {
+        "type": "string",
+        "description": "The identifier of the agent requesting the payment."
+      },
+      "metadata": {
+        "type": "object",
+        "description": "Optional arbitrary key-value pairs to attach to the transaction for tracking purposes."
+      }
+    },
+    "required": [
+      "amount",
+      "merchant",
+      "purpose",
+      "requesting_agent_id"
+    ]
+  },
+  "x-base-url": "http://127.0.0.1:9119"
+}

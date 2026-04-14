@@ -1,0 +1,17 @@
+{
+  "name": "check_budget",
+  "description": "Check the available budget for a specific agent. Accepts either user token (alu_) or supervisor token (als_) authentication. Use this before requesting a payment to ensure funds are available.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "agent_id": {
+        "type": "string",
+        "description": "The identifier of the agent."
+      }
+    },
+    "required": [
+      "agent_id"
+    ]
+  },
+  "x-base-url": "http://127.0.0.1:9119"
+}

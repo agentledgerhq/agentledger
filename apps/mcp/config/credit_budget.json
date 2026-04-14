@@ -1,0 +1,25 @@
+{
+  "name": "credit_budget",
+  "description": "Restore previously consumed budget for an agent. Use this after a payment bounces, a refund is received, or a transaction needs to be reversed. Requires Supervisor Tier 2 or higher. A reason is mandatory for audit trail purposes.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "agent_id": {
+        "type": "string",
+        "description": "The identifier of the agent to credit."
+      },
+      "amount": {
+        "type": "integer",
+        "description": "Amount to restore in cents (e.g. 2500 for $25.00). Must be positive."
+      },
+      "reason": {
+        "type": "string",
+        "description": "Human-readable reason for the credit (e.g. 'Payment bounced', 'Merchant refund received'). Required for audit trail."
+      }
+    },
+    "required": ["agent_id", "amount", "reason"]
+  },
+  "x-base-url": "http://127.0.0.1:9119",
+  "x-auth": "AGENTLEDGER_SUPERVISOR_TOKEN",
+  "x-supervisor-tier": 2
+}

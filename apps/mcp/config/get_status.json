@@ -1,0 +1,19 @@
+{
+  "name": "get_status",
+  "description": "Check the current status of a transaction by its ID. Requires user token (alu_) authentication. Returns status ('pending', 'spent', or 'denied'), amount, merchant, purpose, and expiry time for pending transactions. Card details are included only when the status is 'spent' and agent_id matches the transaction's owning agent. Use this to poll for approval results and retrieve card details after a request_payment call in manual approval mode.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "transaction_id": {
+        "type": "string",
+        "description": "The unique transaction ID returned by request_payment."
+      },
+      "agent_id": {
+        "type": "string",
+        "description": "Your agent identifier. Must match the requesting_agent_id used in the original request_payment call to receive card details."
+      }
+    },
+    "required": ["transaction_id", "agent_id"]
+  },
+  "x-base-url": "http://127.0.0.1:9119"
+}

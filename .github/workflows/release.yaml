@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, windows, darwin]
+        goarch: [amd64, arm64]
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.25'
+        
+    - name: Install dependencies
+      run: go mod tidy
+      working-directory: apps/local
+
+    - name: Build Binary
+      env:
+        GOOS: ${{ matrix.goos }}
+        GOARCH: ${{ matrix.goarch }}
+        CGO_ENABLED: 0
+      working-directory: apps/local
+      run: |
+        mkdir -p build
+        output_name="agentledger-${{ matrix.goos }}-${{ matrix.goarch }}"
+        if [ "${{ matrix.goos }}" = "windows" ]; then
+            output_name="${output_name}.exe"
+        fi
+        go build -o "build/$output_name" ./cmd/agentledger
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: binary-${{ matrix.goos }}-${{ matrix.goarch }}
+        path: apps/local/build/*
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Download all build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
+    - name: Flatten directory
+      run: |
+        mkdir -p release-binaries
+        find artifacts -type f -exec mv {} release-binaries/ \;
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: release-binaries/*
+        generate_release_notes: true

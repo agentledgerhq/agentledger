@@ -1,0 +1,15 @@
+{
+  "name": "get_transactions",
+  "description": "Retrieve the transaction history for a specific agent. Returns all recorded transactions including their status ('pending', 'spent', 'denied'), amounts, merchants, purposes, and timestamps. Accessible to both user agents and supervisor agents.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "agent_id": {
+        "type": "string",
+        "description": "The identifier of the agent whose transaction history to retrieve."
+      }
+    },
+    "required": ["agent_id"]
+  },
+  "x-base-url": "http://127.0.0.1:9119"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "approve_transaction",
+  "description": "Approve a pending payment request. Once approved, the transaction transitions to 'spent' and the reserved budget is consumed. Card details are NOT returned in this response — the user agent retrieves them by polling get_status with a matching agent_id. Only call this after reviewing the transaction via list_pending_transactions.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "transaction_id": {
+        "type": "string",
+        "description": "The unique transaction ID to approve (from list_pending_transactions)."
+      }
+    },
+    "required": ["transaction_id"]
+  },
+  "x-base-url": "http://127.0.0.1:9119",
+  "x-auth": "AGENTLEDGER_SUPERVISOR_TOKEN",
+  "x-supervisor-tier": 1
+}
