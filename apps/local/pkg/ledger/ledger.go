@@ -14,6 +14,11 @@ import (
 	"github.com/google/uuid"
 )
 
+// MaxAuthorizeAmount caps a single authorize request at $1,000,000 (in cents).
+// Anything above this is rejected before arithmetic, keeping `used + amount`
+// safely below math.MaxInt64 and preventing signed-overflow budget bypass.
+const MaxAuthorizeAmount int64 = 1_000_000_00
+
 type Ledger struct {
 	db           *sql.DB
 	key          *memguard.Enclave
@@ -189,6 +194,9 @@ func (l *Ledger) Authorize(req models.AuthorizeRequest) (*models.AuthorizeRespon
 	if req.Amount <= 0 {
 		return insertDenied("Amount must be strictly positive")
 	}
+	if req.Amount > MaxAuthorizeAmount {
+		return insertDenied("Amount exceeds per-request maximum")
+	}
 
 	// Auto-reset monthly budgets if the period has elapsed
 	if err := checkAndResetPeriod(tx, req.RequestingAgentID); err != nil && err != sql.ErrNoRows {
@@ -204,7 +212,9 @@ func (l *Ledger) Authorize(req models.AuthorizeRequest) (*models.AuthorizeRespon
 		return nil, err
 	}
 
-	if used+req.Amount > limit {
+	// Overflow-safe: limit >= 0 (enforced by SetBudget) and used >= 0
+	// (refunds clamp via MAX(..., 0)), so this form cannot wrap.
+	if req.Amount > limit-used {
 		return insertDenied("Insufficient budget")
 	}
 

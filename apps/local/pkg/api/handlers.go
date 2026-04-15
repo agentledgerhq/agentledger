@@ -148,6 +148,10 @@ func (s *Server) handleAuthorize(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "field too long (agent_id max 128, merchant max 256, purpose max 1024)", http.StatusBadRequest)
 		return
 	}
+	if req.Amount <= 0 || req.Amount > ledger.MaxAuthorizeAmount {
+		http.Error(w, "amount must be positive and <= per-request maximum", http.StatusBadRequest)
+		return
+	}
 
 	resp, err := s.Ledger.Authorize(req)
 	if err != nil {
